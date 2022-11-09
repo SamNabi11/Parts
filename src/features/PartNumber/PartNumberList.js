@@ -9,7 +9,7 @@ const PartNumberList = () => {
 
    useEffect(() => {
     fetch(
-        "http://litemanufacturing-prod.us-west-2.elasticbeanstalk.com/api/PartNumber")
+        "https://d3ttaqb72x3f57.cloudfront.net/")
         .then((res) => res.json())
         .then((data) => setRowData(data));
    })
