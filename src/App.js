@@ -1,28 +1,39 @@
 import React from 'react';
 
-import { Counter } from './features/counter/Counter';
-import { selectUser } from './features/Login/userSlice';
-import './App.css';
-import Login from './features/Login/Login';
-import Logout from './features/Login/Logout';
-import { useSelector } from 'react-redux';
+import { Navigation } from './Navigation';
+//import { selectUser } from './features/Login/userSlice';
+//import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Outlet
+} from "react-router-dom";
+import PartNumberList from './features/PartNumber/PartNumberList';
 import PartNumber from './features/PartNumber/PartNumber';
-import PartNumberList from './features/PartNumber/PartNumberList.js';
+
+//import { useSelector } from 'react-redux';
+
 
 function App() {
-
-  const user = useSelector(selectUser);
-
   return (
-    <div className="App">
-      <header className="App-header">
-       
-        {/* <Counter /> */}
-        {/* {user ? <Logout /> : <Login />}  */}
-        <PartNumberList />
-      </header>
+    <BrowserRouter>
+   
+    <div className="container">
+      <h3 className="m-3 d-flex justify-content-center">
+      React Test
+      </h3>
+      <Navigation/>
+
+<Routes>
+<Route path="/" element={<PartNumberList />} />
+<Route path="Product" element={<PartNumber />}></Route>
+</Routes>
     </div>
+    </BrowserRouter>
   );
 }
 
 export default App;
+
