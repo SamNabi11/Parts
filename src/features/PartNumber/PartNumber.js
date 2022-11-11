@@ -7,26 +7,28 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from "react-router-dom";
 
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-const url = 'https://localhost:5232/api/PartNumber';
+const url = 'https://d3ttaqb72x3f57.cloudfront.net/';
 const responseBody = res => res.body;
 
 const
   PartNumber = () => {
-    const navigate = useNavigate()
-    const [companyPrefix, setCompanyPrefix] = useState('NL')
-    const [level, setLevel] = useState('')
-    const [origin, setOrigin] = useState('')
-    const [category, setCategory] = useState('')
-    const [revision, setRevision] = useState('')
-    const [description, setDescription] = useState('')
+    const navigate = useNavigate();
+    const [companyPrefix, setCompanyPrefix] = useState('NL');
+    const [level, setLevel] = useState('');
+    const [origin, setOrigin] = useState('');
+    const [category, setCategory] = useState('');
+    const [revision, setRevision] = useState('');
+    const [description, setDescription] = useState('');
     const dispatch = useDispatch();
-    const [isAlertVisible, setIsAlertVisible] = React.useState(false);
-    const [resMsg, setResMsg] = useState('')
+    
+    const [resMsg, setResMsg] = useState('');
+    const [show, setShow] = useState(false);
 
     const navigatePartNumberList = () => {
       // 👇️ navigate to /
@@ -36,6 +38,9 @@ const
     const delay = ms => new Promise(
       resolve => setTimeout(resolve, ms)
     );
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     let handleSubmit = async (e) => {
       e.preventDefault();
@@ -59,11 +64,10 @@ const
           setResMsg("Some error occured");
         }
         console.log("testtttt");
-        setIsAlertVisible(true);
-        setTimeout(() => {
-          setIsAlertVisible(false);
-        }, 3000);
-       await delay(3000);
+        
+        handleShow();
+        await delay(3000);
+
         navigatePartNumberList();
       } catch (err) {
         console.log(err);
@@ -83,7 +87,7 @@ const
             </Form.Group>
             <Form.Group as={Col} controlId="formlevel">
               <Form.Label>Level</Form.Label>
-              <Form.Select name='level' value={level} onChange={(e) => setLevel(e.target.value)}>
+              <Form.Select name='level' required as="select" value={level} onChange={(e) => setLevel(e.target.value)}>
                 <option value=''></option>
                 <option value='A'>Assembly</option>
                 <option value='P'>Part</option>
@@ -91,7 +95,7 @@ const
             </Form.Group>
             <Form.Group as={Col} controlId="formOrigin">
               <Form.Label>Origin</Form.Label>
-              <Form.Select name='origin' value={origin} onChange={(e) => setOrigin(e.target.value)}>
+              <Form.Select name='origin' required as="select" value={origin} onChange={(e) => setOrigin(e.target.value)}>
                 <option value=''></option>
                 <option value='C'>Custom</option>
                 <option value='S'>Shelf</option>
@@ -102,7 +106,7 @@ const
           <Row>
             <Form.Group as={Col} controlId="formCategory">
               <Form.Label>Category</Form.Label>
-              <Form.Select name='category' value={category} onChange={(e) => setCategory(e.target.value)}>
+              <Form.Select name='category' required as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option value=''></option>
                 <option value='EL'>Electrical</option>
                 <option value='ME'>Mechanical</option>
@@ -118,7 +122,7 @@ const
             </Form.Group>
             <Form.Group as={Col} controlId="formRevision">
               <Form.Label>Revision</Form.Label>
-              <Form.Select name='origin' value={revision} onChange={(e) => setRevision(e.target.value)}>
+              <Form.Select name='origin' required as="select" value={revision} onChange={(e) => setRevision(e.target.value)}>
                 <option value=''></option>
                 <option value='P'>Prototype</option>
                 <option value='A'>Alpha</option>
@@ -127,23 +131,35 @@ const
               </Form.Select>
             </Form.Group>
           </Row>
+          <br />
           <FloatingLabel
-        controlId="floatingTextarea"
-        label="Description"
-        className="mb-3"
-      >
-        <Form.Control as="textarea" placeholder="Description"  value={description} onChange={(e) => setDescription(e.target.value)} />
-      </FloatingLabel>
-      <br />
+            controlId="floatingTextarea"
+            label="Description"
+            className="mb-3"
+          >
+
+            <Form.Control as="textarea" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+          </FloatingLabel>
+          <br />
           <Button variant="primary" type='submit'>Submit</Button>
           <br />
-          {isAlertVisible && <div className='alert-container'>
-              <div className='alert-inner'>{resMsg}</div>
-          </div>}
+          
+
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title></Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+             <h1> {resMsg}</h1>
+            </Modal.Body>
+            <Modal.Footer>
+
+            </Modal.Footer>
+          </Modal>
 
         </Form>
-        
-       
+
+
       </div>
     )
   }
