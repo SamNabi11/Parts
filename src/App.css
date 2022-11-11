@@ -37,3 +37,32 @@
     transform: translateY(0px);
   }
 }
+
+.ag-theme-alpine .ag-header-cell {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.ag-right-header .ag-header-cell-label {
+   flex-direction: row-reverse;
+}
+
+.ag-center-header .ag-header-cell-label {
+  justify-content: center;
+}
+
+.ag-left-header .ag-header-cell-label {
+  flex-direction: row;
+}
+
+.ag-center-cell {
+  text-align: center;
+}
+
+.ag-right-cell {
+  text-align: right;
+}
+
+.ag-left-cell {
+  text-align: left;
+}

@@ -21,14 +21,21 @@ const PartNumberList = (props) => {
    }, [])
    
    const [columnDefs] = useState([
-       { field: 'ID' , width: 50 },
-       { field: 'PartNumber', width: 150 , sortable: true ,filter: true },
-       { field: 'CompanyPrefix', width: 150 , sortable: true ,filter: true },
-       { field: 'Level', width: 100 , sortable: true ,filter: true  },
-       { field: 'Origin', width: 100 , sortable: true ,filter: true  },
-       { field: 'Category', width: 125 , sortable: true ,filter: true  },
-       { field: 'Revision', width: 125 , sortable: true ,filter: true  },
-       { field: 'Description', width: 400  }
+       { field: 'ID' , width: 70 },
+       { field: 'PartNumber', resizable: true, width: 200 , sortable: true ,filter: true,headerClass: "ag-center-header",
+       cellClass: "ag-center-cell" },
+       { field: 'CompanyPrefix', resizable: true, width: 150 , sortable: true ,filter: true,headerClass: "ag-center-header",
+       cellClass: "ag-center-cell" },
+       { field: 'Level', resizable: true, width: 150 , sortable: true ,filter: true ,headerClass: "ag-center-header",
+       cellClass: "ag-center-cell" },
+       { field: 'Origin', resizable: true, width: 150 , sortable: true ,filter: true,headerClass: "ag-center-header",
+       cellClass: "ag-center-cell"  },
+       { field: 'Category', resizable: true, width: 150 , sortable: true ,filter: true,headerClass: "ag-center-header",
+       cellClass: "ag-center-cell"  },
+       { field: 'Revision', resizable: true, width: 150 , sortable: true ,filter: true ,headerClass: "ag-center-header",
+       cellClass: "ag-center-cell" },
+       { field: 'Description', width: 300  ,headerClass: "ag-center-header",
+       cellClass: "ag-center-cell"}
    ])
 
    const navigateNewPart = () => {
@@ -37,7 +44,7 @@ const PartNumberList = (props) => {
   };
 
    return (
-       <div className="ag-theme-alpine" style={{height: 800, width: 1600}}>
+       <div className="ag-theme-alpine" style={{height: 800, width: 1400}}>
         <br />
         <br />
          <Button onClick={navigateNewPart}>Create New Part</Button>
