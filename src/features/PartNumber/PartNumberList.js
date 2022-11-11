@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
-const PartNumberList = () => {
+const PartNumberList = (props) => {
     const gridRef = useRef(null);
+    const navigate = useNavigate();
    const [rowData,setRowData] = useState([])
 
    useEffect(() => {
@@ -24,8 +26,15 @@ const PartNumberList = () => {
        { field: 'Category' , sortable: true ,filter: true  }
    ])
 
+   const navigateNewPart = () => {
+    // 👇️ navigate to /
+    navigate('/PartNumber', { replace: true });
+  };
+
    return (
        <div className="ag-theme-alpine" style={{height: 800, width: 800}}>
+         <button onClick={navigateNewPart}>Create New Part</button>
+        <hr />
            <AgGridReact
            ref={gridRef}
                rowData={rowData}

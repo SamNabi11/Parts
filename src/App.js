@@ -8,20 +8,33 @@ import Logout from './features/Login/Logout';
 import { useSelector } from 'react-redux';
 import PartNumber from './features/PartNumber/PartNumber';
 import PartNumberList from './features/PartNumber/PartNumberList.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {  
+  BrowserRouter as Router,  
+  Routes,  
+  Route,  
+  Link  
+}   
+from 'react-router-dom';  
 
 function App() {
 
   const user = useSelector(selectUser);
 
   return (
-    <div className="App">
-      <header className="App-header">
-       
-        {/* <Counter /> */}
-        {/* {user ? <Logout /> : <Login />}  */}
-        <PartNumberList />
-      </header>
-    </div>
+    <div className="App">  
+   
+    <Router>  
+    {/* <header className="App-header">
+       <PartNumberList />
+     </header> */}
+     <Routes>
+          <Route path="/" element={<PartNumberList />} />
+          <Route path="/PartNumber" element={<PartNumber />} />
+        </Routes>
+    </Router>  
+</div>
+
   );
 }
 
