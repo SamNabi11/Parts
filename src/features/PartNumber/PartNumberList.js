@@ -14,8 +14,8 @@ const PartNumberList = (props) => {
    useEffect(() => {
     console.log("Calling api");
     fetch(
-        //"https://d3ttaqb72x3f57.cloudfront.net/")
-        "https://localhost:5232/api/PartNumber")
+        "https://d3ttaqb72x3f57.cloudfront.net/")
+        //"https://localhost:5232/api/PartNumber")
         .then((res) => res.json())
         .then((data) => setRowData(data));
        
