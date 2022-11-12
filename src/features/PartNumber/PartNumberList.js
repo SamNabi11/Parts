@@ -14,7 +14,8 @@ const PartNumberList = (props) => {
    useEffect(() => {
     console.log("Calling api");
     fetch(
-        "https://d3ttaqb72x3f57.cloudfront.net/")
+        //"https://d3ttaqb72x3f57.cloudfront.net/")
+        "https://localhost:5232/api/PartNumber")
         .then((res) => res.json())
         .then((data) => setRowData(data));
        
@@ -26,11 +27,11 @@ const PartNumberList = (props) => {
        cellClass: "ag-center-cell" },
        { field: 'CompanyPrefix', resizable: true, width: 150 , sortable: true ,filter: true,headerClass: "ag-center-header",
        cellClass: "ag-center-cell" },
-       { field: 'Level', resizable: true, width: 150 , sortable: true ,filter: true ,headerClass: "ag-center-header",
+       { field: 'LevelName' , headerName: 'Level', resizable: true, width: 150 , sortable: true ,filter: true ,headerClass: "ag-center-header",
        cellClass: "ag-center-cell" },
-       { field: 'Origin', resizable: true, width: 150 , sortable: true ,filter: true,headerClass: "ag-center-header",
+       { field: 'OriginName' , headerName: 'Origin', resizable: true, width: 150 , sortable: true ,filter: true,headerClass: "ag-center-header",
        cellClass: "ag-center-cell"  },
-       { field: 'Category', resizable: true, width: 150 , sortable: true ,filter: true,headerClass: "ag-center-header",
+       { field: 'CategoryName' , headerName: 'Category', resizable: true, width: 150 , sortable: true ,filter: true,headerClass: "ag-center-header",
        cellClass: "ag-center-cell"  },
        { field: 'Revision', resizable: true, width: 150 , sortable: true ,filter: true ,headerClass: "ag-center-header",
        cellClass: "ag-center-cell" },
