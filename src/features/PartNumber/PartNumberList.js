@@ -4,23 +4,32 @@ import { AgGridReact } from 'ag-grid-react';
 import Button from 'react-bootstrap/Button';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import BtnCellRenderer from '../../BtnCellRenderer';
+import BtnCellRenderer from './BtnCellRenderer';
 
 
 const PartNumberList = (props) => {
     const gridRef = useRef(null);
     const navigate = useNavigate();
    const [rowData,setRowData] = useState([])
+   const [refreshKey, setRefreshKey] = useState(0);
+
+
+   const updateRefreshKey = (cell: string) => {
+    setRefreshKey(refreshKey + 1);
+};
 
    useEffect(() => {
     console.log("Calling api");
     fetch(
-        //"https://d3ttaqb72x3f57.cloudfront.net/")
-        "https://localhost:5232/api/PartNumber")
+        "https://d3ttaqb72x3f57.cloudfront.net/")
+        //"https://localhost:5232/api/PartNumber")
         .then((res) => res.json())
-        .then((data) => setRowData(data));
+        .then((data) => setRowData(data))
+        ;
        
-   }, [])
+       
+   }, [refreshKey])
+
    
    const [columnDefs] = useState([
        { field: 'ID' , width: 70 },
@@ -42,12 +51,10 @@ const PartNumberList = (props) => {
         field: 'Action' ,headerClass: "ag-center-header",
         cellClass: "ag-center-cell",
         width: 300, 
-        cellRenderer: BtnCellRenderer,
+        cellRenderer: BtnCellRenderer ,
           cellRendererParams: {
-            clicked: function(field) {
-              alert(`${field} was clicked`);
-            },
-          },
+            refreshKey : refreshKey
+         },
        }
    ])
 
@@ -66,6 +73,9 @@ const PartNumberList = (props) => {
            ref={gridRef}
                rowData={rowData}
                columnDefs={columnDefs}
+               context={{
+                updateRefreshKey
+            }}
                 rowSelection="single"
                 >
            </AgGridReact>
