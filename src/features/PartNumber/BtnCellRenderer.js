@@ -21,8 +21,12 @@ const BtnCellRenderer = (props) => {
   const handleupdateRevision = () => {
     try {
       //alert(`${props.data.ID} was clicked`);   
-      let res = fetch(url + "?ID=" + props.data.ID, {
+      let res = fetch(url , {
         method: "POST",
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          ID: props.data.ID,
+        }),
       });
       //let resJson = await res.json();
       if (res.status === 200) {
