@@ -1,16 +1,16 @@
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
 const url = "https://d3ttaqb72x3f57.cloudfront.net/UpdateRevision";
- // "https://localhost:5232/api/PartNumber/UpdateRevision";
+          //"https://localhost:5232/api/PartNumber/UpdateRevision";
 
 
 const BtnCellRenderer = (props) => {
 
   const invokeParentMethod = () => {
-    props.context.updateRefreshKey(`Row: ${props.node.rowIndex}, Col: ${props.colDef?.field}`);
+    props.context.updateRefreshKey();
 };
 
   const handleClose = () => setShow(false);
@@ -18,10 +18,11 @@ const BtnCellRenderer = (props) => {
   const [show, setShow] = useState(false);
 
 
-  const handleupdateRevision = () => {
+  const handleupdateRevision = async (e) => {
+    e.preventDefault();
     try {
       //alert(`${props.data.ID} was clicked`);   
-      let res = fetch(url , {
+      let res = await fetch(url , {
         method: "POST",
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
@@ -30,6 +31,7 @@ const BtnCellRenderer = (props) => {
       });
       //let resJson = await res.json();
       if (res.status === 200) {
+        invokeParentMethod();
         //setResMsg("Revision updated successfully");
       } else {
         //setResMsg("Some error occured");
@@ -38,7 +40,7 @@ const BtnCellRenderer = (props) => {
       }
 
       handleClose();
-      invokeParentMethod();
+      
 
 
     } catch (err) {
@@ -46,7 +48,8 @@ const BtnCellRenderer = (props) => {
     }
   }
 
-  const btnClickedHandler = () => {
+  const btnClickedHandler = (e) => {
+    e.preventDefault();
     handleShow();
     // props.clicked(props.data.ID + "-" + props.data.PartNumber);
   }
