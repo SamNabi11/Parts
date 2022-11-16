@@ -106,7 +106,8 @@ const PartNumberList = (props) => {
     return (
         <div>
             <div className="mb-3">
-               
+                <br />
+                <br />
                 <Button onClick={navigateNewPart}>Create New Part</Button>
                 <Form.Check onChange={loadAfterSwichChange}
                     type="switch"
@@ -114,7 +115,7 @@ const PartNumberList = (props) => {
                     label="Show Only Last Revision"
                     style={{ height: 20, width: 220 }}
                 />
-                
+                <hr />
             </div>
             <div className="ag-theme-alpine" style={{ height: 800, width: 1400 }}>
                 <AgGridReact
