@@ -4,8 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 
-const url = //"https://d3ttaqb72x3f57.cloudfront.net/";
-  "https://localhost:5232/api/PartNumber/";
+const url = "https://d3ttaqb72x3f57.cloudfront.net/";
+  //"https://localhost:5232/api/PartNumber/";
 
 
 const BtnCellRenderer = (props) => {
