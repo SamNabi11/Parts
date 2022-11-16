@@ -43,6 +43,10 @@ const
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    let handleGoback = async (e) => {
+      e.preventDefault();
+      navigatePartNumberList();
+    }
     let handleSubmit = async (e) => {
       e.preventDefault();
       try {
@@ -125,10 +129,10 @@ const
               <Form.Label>Revision</Form.Label>
               <Form.Select name='origin' required as="select" value={revision} onChange={(e) => setRevision(e.target.value)}>
                 <option value=''></option>
-                <option value='P'>Prototype</option>
-                <option value='A'>Alpha</option>
-                <option value='B'>Beta</option>
-                <option value='D'>Production</option>
+                <option value='X'>Prototype</option>
+                <option value='Y'>Alpha</option>
+                <option value='Z'>Beta</option>
+                <option value='A'>Production</option>
               </Form.Select>
             </Form.Group>
           </Row>
@@ -142,7 +146,8 @@ const
             <Form.Control as="textarea" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
           </FloatingLabel>
           <br />
-          <Button variant="primary" type='submit'>Submit</Button>
+          <Button variant="primary" type='submit'>Submit</Button> &nbsp; &nbsp;
+          <Button variant="primary" type='button' onClick={handleGoback} >GoBack</Button>
           <br />
           
 

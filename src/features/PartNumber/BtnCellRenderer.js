@@ -1,32 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 
 
 const url = "https://d3ttaqb72x3f57.cloudfront.net/UpdateRevision";
-          //"https://localhost:5232/api/PartNumber/UpdateRevision";
+  //"https://localhost:5232/api/PartNumber/UpdateRevision";
 
 
 const BtnCellRenderer = (props) => {
 
   const invokeParentMethod = () => {
     props.context.updateRefreshKey();
-};
+
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [show, setShow] = useState(false);
+  const [description, setDescription] = useState('');
 
+  const [checkedItem, setCheckedItem] = useState({});
+  const [radioPrototypeDisabled, SetPrototypeDisabled] = useState({});
+  const [radioAlphaDisabled, SetAlphaDisabled] = useState({});
+  const [radioBetaDisabled, SetBetaDisabled] = useState({});
+
+  const handleChange = (e)  => {
+    setCheckedItem(e.target.value);
+  };
 
   const handleupdateRevision = async (e) => {
     e.preventDefault();
     try {
-      //alert(`${props.data.ID} was clicked`);   
-      let res = await fetch(url , {
+      console.log(description);
+      let res = await fetch(url, {
         method: "POST",
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
           ID: props.data.ID,
+          Revision: checkedItem,
+          Description: description,
+          
         }),
       });
       //let resJson = await res.json();
@@ -40,7 +54,7 @@ const BtnCellRenderer = (props) => {
       }
 
       handleClose();
-      
+
 
 
     } catch (err) {
@@ -50,6 +64,32 @@ const BtnCellRenderer = (props) => {
 
   const btnClickedHandler = (e) => {
     e.preventDefault();
+    if (props.data.Revision.trim() === 'X')
+    {
+      setCheckedItem("Y");
+      SetPrototypeDisabled(true);
+      SetAlphaDisabled(false);
+      SetBetaDisabled(false);
+
+    }
+    else if (props.data.Revision.trim() === 'Y')
+    {
+      setCheckedItem("Z");
+      SetPrototypeDisabled(true);
+      SetAlphaDisabled(true);
+      SetBetaDisabled(false);
+
+    }
+    else
+    {
+      setCheckedItem("A");
+      SetPrototypeDisabled(true);
+      SetAlphaDisabled(true);
+      SetBetaDisabled(true);
+
+    }
+     
+
     handleShow();
     // props.clicked(props.data.ID + "-" + props.data.PartNumber);
   }
@@ -60,15 +100,76 @@ const BtnCellRenderer = (props) => {
       <Button name='Delete' size="sm" onClick={btnClickedHandler}><img src="../delete.png" height="20" width="20" /></Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Alert!</Modal.Title>
+          <Modal.Title>Please add new description for updated revision!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>are you sure you want to update Revision?</Modal.Body>
+        <Modal.Body>
+          <Form>
+
+            <div key={`inline-radio`} className="mb-3">
+              <Form.Group controlId="kindOfStand" >
+                <Form.Check
+                  inline
+                  value="X"
+                  label="Prototype"
+                  name="group1"
+                  disabled={radioPrototypeDisabled}
+                  type="radio"
+                  id={`inline-radio-1`}
+                  onClick={handleChange}
+                  defaultChecked={checkedItem === "X"}
+                />
+                <Form.Check
+                  inline
+                  value="Y"
+                  label="Alpha"
+                  name="group1"
+                  disabled={radioAlphaDisabled}
+                  type="radio"
+                  id={`inline-radio-2`}
+                  onChange={handleChange}
+                  defaultChecked={checkedItem === "Y"}
+                />
+                <Form.Check
+                  inline
+                  value="Z"
+                  label="Beta"
+                  name="group1"
+                  disabled={radioBetaDisabled}
+                  type="radio"
+                  id={`inline-radio-3`}
+                  onChange={handleChange}
+                  defaultChecked={checkedItem === "Z"}
+                />
+                <Form.Check
+                  inline
+                  value="A"
+                  label="Production"
+                  name="group1"
+                  type="radio"
+                  id={`inline-radio-4`}
+                  onChange={handleChange}
+                  defaultChecked={checkedItem === "A"}
+                />
+              </Form.Group>
+            </div>
+
+          </Form>
+          <Form>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Description</Form.Label>
+              <Form.Control as="textarea" onChange={(e) => setDescription(e.target.value)} rows={3} autoFocus />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleupdateRevision}>
-            Yes
+            Save
           </Button>
           <Button variant="primary" onClick={handleClose}>
-            No
+            Cancel
           </Button>
         </Modal.Footer>
       </Modal>
