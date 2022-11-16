@@ -4,8 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 
-const url = "https://d3ttaqb72x3f57.cloudfront.net/UpdateRevision";
-  //"https://localhost:5232/api/PartNumber/UpdateRevision";
+const url = //"https://d3ttaqb72x3f57.cloudfront.net/";
+  "https://localhost:5232/api/PartNumber/";
 
 
 const BtnCellRenderer = (props) => {
@@ -16,8 +16,11 @@ const BtnCellRenderer = (props) => {
   };
 
   const handleClose = () => setShow(false);
+  const handleCloseDelete = () => setShowDelete(false);
   const handleShow = () => setShow(true);
+  const handleShowDelete = () => setShowDelete(true);
   const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [description, setDescription] = useState('');
 
   const [checkedItem, setCheckedItem] = useState({});
@@ -33,7 +36,7 @@ const BtnCellRenderer = (props) => {
     e.preventDefault();
     try {
       console.log(description);
-      let res = await fetch(url, {
+      let res = await fetch(url + "UpdateRevision", {
         method: "POST",
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
@@ -48,21 +51,40 @@ const BtnCellRenderer = (props) => {
         invokeParentMethod();
         //setResMsg("Revision updated successfully");
       } else {
-        //setResMsg("Some error occured");
-
-
+        //todo
       }
 
       handleClose();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const handleDeletePart = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(description);
+      let res = await fetch(url + "ArchivePartNumber", {
+        method: "POST",
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          ID: props.data.ID,
+        }),
+      });
+      //let resJson = await res.json();
+      if (res.status === 200) {
+        invokeParentMethod();
+        //setResMsg("Revision updated successfully");
+      } else {
+        //todo
+      }
 
-
-
+      handleClose();
     } catch (err) {
       console.log(err);
     }
   }
 
-  const btnClickedHandler = (e) => {
+  const btnUpdateClickedHandler = (e) => {
     e.preventDefault();
     if (props.data.Revision.trim() === 'X')
     {
@@ -94,10 +116,18 @@ const BtnCellRenderer = (props) => {
     // props.clicked(props.data.ID + "-" + props.data.PartNumber);
   }
 
+  const btnDeleteClickedHandler = (e) => {
+    e.preventDefault();
+    
+    handleShowDelete();
+    // props.clicked(props.data.ID + "-" + props.data.PartNumber);
+  }
+
+
   return (
     <div>
-      <Button name='Rev' size="sm" onClick={btnClickedHandler}><img src="../revision.png" height="20" width="20" /></Button> &nbsp;
-      <Button name='Delete' size="sm" onClick={btnClickedHandler}><img src="../delete.png" height="20" width="20" /></Button>
+      <Button name='Rev' size="sm" onClick={btnUpdateClickedHandler}><img src="../revision.png" height="20" width="20" /></Button> &nbsp;
+      <Button name='Delete' size="sm" onClick={btnDeleteClickedHandler}><img src="../delete.png" height="20" width="20" /></Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Please add new description for updated revision!</Modal.Title>
@@ -170,6 +200,25 @@ const BtnCellRenderer = (props) => {
           </Button>
           <Button variant="primary" onClick={handleClose}>
             Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showDelete} onHide={handleCloseDelete}>
+        <Modal.Header closeButton>
+          <Modal.Title> Caution!! Are you sure you want to delete this PartNumber?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+
+          </Form>
+         
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleDeletePart}>
+            Yes
+          </Button>
+          <Button variant="primary" onClick={handleCloseDelete}>
+            No
           </Button>
         </Modal.Footer>
       </Modal>

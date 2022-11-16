@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import BtnCellRenderer from './BtnCellRenderer';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const PartNumberList = (props) => {
@@ -35,8 +36,8 @@ const PartNumberList = (props) => {
 
     useEffect(() => {
         console.log("Calling api" + "  " + showOnlyLastRev);
-        let url = "https://d3ttaqb72x3f57.cloudfront.net/GetPartsList";
-            //"https://localhost:5232/api/PartNumber/GetPartsList";
+        let url = //"https://d3ttaqb72x3f57.cloudfront.net/GetPartsList";
+            "https://localhost:5232/api/PartNumber/GetPartsList";
         let res = fetch(url, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
@@ -106,8 +107,7 @@ const PartNumberList = (props) => {
     return (
         <div>
             <div className="mb-3">
-                <br />
-                <br />
+               
                 <Button onClick={navigateNewPart}>Create New Part</Button>
                 <Form.Check onChange={loadAfterSwichChange}
                     type="switch"
@@ -115,7 +115,7 @@ const PartNumberList = (props) => {
                     label="Show Only Last Revision"
                     style={{ height: 20, width: 220 }}
                 />
-                <hr />
+                
             </div>
             <div className="ag-theme-alpine" style={{ height: 800, width: 1400 }}>
                 <AgGridReact
