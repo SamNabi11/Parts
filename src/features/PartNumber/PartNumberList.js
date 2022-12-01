@@ -80,7 +80,7 @@ const PartNumberList = (props) => {
         {
             field: 'Description', width: 200, headerClass: "ag-center-header", filter: true,
             cellClass: "ag-center-cell",tooltipField: 'Description',
-            tooltipComponentParams: { color: '#ececec' },
+            tooltipComponentParams: { color: '#ececec' },editable: true,
         },
         {
             field: 'DateCreated', width: 150, headerClass: "ag-center-header", filter: true,
