@@ -54,43 +54,43 @@ const PartNumberList = (props) => {
     const [columnDefs] = useState([
        // { field: 'ID', width: 50, pinned: true },
         {
-            field: 'PartNumber', resizable: true, width: 180, sortable: true, filter: true, pinned: true, headerClass: "ag-center-header",
+            field: 'PartNumber', resizable: true, editable: true, width: 180, sortable: true, filter: true, pinned: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
-            field: 'CompanyPrefix', resizable: true, width: 90, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'CompanyPrefix', resizable: true, editable: true, width: 90, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
-            field: 'LevelName', headerName: 'Level', resizable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'LevelName', headerName: 'Level', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
-            field: 'OriginName', headerName: 'Origin', resizable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'OriginName', headerName: 'Origin', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
-            field: 'CategoryName', headerName: 'Category', resizable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'CategoryName', headerName: 'Category', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
-            field: 'Revision', resizable: true, width: 90, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Revision', resizable: true, editable: true, width: 90, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
             field: 'Description', width: 200, headerClass: "ag-center-header", filter: true,
             cellClass: "ag-center-cell",tooltipField: 'Description',
-            tooltipComponentParams: { color: '#ececec' },editable: true,
+            tooltipComponentParams: { color: '#ececec' }, editable: true,
         },
         {
             field: 'DateCreated', width: 150, headerClass: "ag-center-header", filter: true,
             cellClass: "ag-center-cell",tooltipField: 'DateCreated',
-            tooltipComponentParams: { color: '#ececec' },
+            tooltipComponentParams: { color: '#ececec' }, editable: true,
         },
         {
             field: 'DateLastChanged', width: 150, headerClass: "ag-center-header", filter: true,
             cellClass: "ag-center-cell",tooltipField: 'DateLastChanged',
-            tooltipComponentParams: { color: '#ececec' },
+            tooltipComponentParams: { color: '#ececec' }, editable: true,
         },
         {
             field: 'Action', headerClass: "ag-center-header",
