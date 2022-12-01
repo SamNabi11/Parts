@@ -62,7 +62,6 @@ const BtnCellRenderer = (props) => {
   const handleDeletePart = async (e) => {
     e.preventDefault();
     try {
-      console.log(description);
       let res = await fetch(url + "ArchivePartNumber", {
         method: "POST",
         headers: { 'Content-type': 'application/json' },

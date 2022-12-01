@@ -79,15 +79,18 @@ const PartNumberList = (props) => {
         },
         {
             field: 'Description', width: 200, headerClass: "ag-center-header", filter: true,
-            cellClass: "ag-center-cell"
+            cellClass: "ag-center-cell",tooltipField: 'Description',
+            tooltipComponentParams: { color: '#ececec' },
         },
         {
             field: 'DateCreated', width: 150, headerClass: "ag-center-header", filter: true,
-            cellClass: "ag-center-cell"
+            cellClass: "ag-center-cell",tooltipField: 'DateCreated',
+            tooltipComponentParams: { color: '#ececec' },
         },
         {
             field: 'DateLastChanged', width: 150, headerClass: "ag-center-header", filter: true,
-            cellClass: "ag-center-cell"
+            cellClass: "ag-center-cell",tooltipField: 'DateLastChanged',
+            tooltipComponentParams: { color: '#ececec' },
         },
         {
             field: 'Action', headerClass: "ag-center-header",
@@ -122,6 +125,8 @@ const PartNumberList = (props) => {
                     ref={gridRef}
                     rowData={rowData}
                     columnDefs={columnDefs}
+                    tooltipShowDelay={0}
+                    tooltipHideDelay={2000}
                     context={{
                         updateRefreshKey
                     }}

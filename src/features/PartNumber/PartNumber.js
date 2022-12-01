@@ -71,7 +71,7 @@ const
         console.log("testtttt");
         
         handleShow();
-        await delay(3000);
+        await delay(1000);
 
         navigatePartNumberList();
       } catch (err) {
