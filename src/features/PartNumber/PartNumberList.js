@@ -62,15 +62,15 @@ const PartNumberList = (props) => {
             cellClass: "ag-center-cell"
         },
         {
-            field: 'LevelName', headerName: 'Level', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Level', headerName: 'Level', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
-            field: 'OriginName', headerName: 'Origin', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Origin', headerName: 'Origin', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
-            field: 'CategoryName', headerName: 'Category', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Category', headerName: 'Category', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell"
         },
         {
