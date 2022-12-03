@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from "react-router-dom";
 
 
@@ -27,6 +28,7 @@ const
     const [revision, setRevision] = useState('');
     const [description, setDescription] = useState('');
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     
     const [resMsg, setResMsg] = useState('');
     const [show, setShow] = useState(false);
@@ -49,6 +51,7 @@ const
     }
     let handleSubmit = async (e) => {
       e.preventDefault();
+      setLoading(true);
       try {
         let res = await fetch(url, {
           method: "POST",
@@ -68,7 +71,7 @@ const
         } else {
           setResMsg("Some error occured");
         }
-        console.log("testtttt");
+        setLoading(false);
         
         handleShow();
         await delay(1000);
@@ -146,7 +149,17 @@ const
             <Form.Control as="textarea" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
           </FloatingLabel>
           <br />
-          <Button variant="primary" type='submit'>Submit</Button> &nbsp; &nbsp;
+          <Button variant="primary" type='submit'>
+          {loading ?   
+              <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            /> : null }
+            {loading ? <>Updating...</> : <>Save</>} 
+            </Button> &nbsp; &nbsp;
           <Button variant="primary" type='button' onClick={handleGoback} >GoBack</Button>
           <br />
           

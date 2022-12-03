@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 
 
 const url = "https://d3ttaqb72x3f57.cloudfront.net/";
@@ -22,7 +23,7 @@ const BtnCellRenderer = (props) => {
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [description, setDescription] = useState('');
-
+  const [loading, setLoading] = useState(false);
   const [checkedItem, setCheckedItem] = useState({});
   const [radioPrototypeDisabled, SetPrototypeDisabled] = useState({});
   const [radioAlphaDisabled, SetAlphaDisabled] = useState({});
@@ -34,6 +35,7 @@ const BtnCellRenderer = (props) => {
 
   const handleupdateRevision = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       console.log(description);
       let res = await fetch(url + "UpdateRevision", {
@@ -53,7 +55,7 @@ const BtnCellRenderer = (props) => {
       } else {
         //todo
       }
-
+      setLoading(false);
       handleClose();
     } catch (err) {
       console.log(err);
@@ -61,6 +63,7 @@ const BtnCellRenderer = (props) => {
   }
   const handleDeletePart = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       let res = await fetch(url + "ArchivePartNumber", {
         method: "POST",
@@ -76,7 +79,7 @@ const BtnCellRenderer = (props) => {
       } else {
         //todo
       }
-
+      setLoading(false);
       handleClose();
     } catch (err) {
       console.log(err);
@@ -195,7 +198,15 @@ const BtnCellRenderer = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleupdateRevision}>
-            Save
+          {loading ?   
+              <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            /> : null }
+            {loading ? <>Updating...</> : <>Update</>} 
           </Button>
           <Button variant="primary" onClick={handleClose}>
             Cancel
@@ -214,7 +225,15 @@ const BtnCellRenderer = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleDeletePart}>
-            Yes
+          {loading ?   
+              <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            /> : null }
+            {loading ? <>Archiving...</> : <>Yes</>} 
           </Button>
           <Button variant="primary" onClick={handleCloseDelete}>
             No
