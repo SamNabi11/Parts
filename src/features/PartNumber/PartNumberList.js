@@ -35,8 +35,8 @@ const PartNumberList = (props) => {
 
     useEffect(() => {
         console.log("Calling api" + "  " + showOnlyLastRev);
-        let url = "https://d3ttaqb72x3f57.cloudfront.net/GetPartsList";
-            //"https://localhost:5232/api/PartNumber/GetPartsList";
+        let url = //"https://d3ttaqb72x3f57.cloudfront.net/GetPartsList";
+            "https://localhost:5232/api/PartNumber/GetPartsList";
         let res = fetch(url, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
@@ -108,18 +108,7 @@ const PartNumberList = (props) => {
 
     return (
         <div>
-            <div className="mb-3">
-                <br />
-                <br />
-                <Button onClick={navigateNewPart}>Create New Part</Button>
-                <Form.Check onChange={loadAfterSwichChange}
-                    type="switch"
-                    id="custom-switch"
-                    label="Show Only Last Revision"
-                    style={{ height: 20, width: 220 }}
-                />
-                <hr />
-            </div>
+           
             <div className="ag-theme-alpine" style={{ height: 800, width: 1400 }}>
                 <AgGridReact
                     ref={gridRef}
@@ -131,8 +120,18 @@ const PartNumberList = (props) => {
                         updateRefreshKey
                     }}
                     rowSelection="single"
+                    paginationAutoPageSize={true}
+                    pagination={true}
                 >
                 </AgGridReact>
+            </div>
+            <div className="mb-3">
+            <Form.Check onChange={loadAfterSwichChange}
+                    type="switch"
+                    id="custom-switch"
+                    label="Show Only Last Revision"
+                    style={{ height: 20, width: 220 }}
+                /><Button onClick={navigateNewPart}>Create New Part</Button>
             </div>
         </div>
     );

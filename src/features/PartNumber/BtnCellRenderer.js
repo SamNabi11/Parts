@@ -5,8 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 
 
-const url = "https://d3ttaqb72x3f57.cloudfront.net/";
-  //"https://localhost:5232/api/PartNumber/";
+const url = //"https://d3ttaqb72x3f57.cloudfront.net/";
+  "https://localhost:5232/api/PartNumber/";
 
 
 const BtnCellRenderer = (props) => {
@@ -23,21 +23,43 @@ const BtnCellRenderer = (props) => {
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [description, setDescription] = useState('');
+  const [newPartNumber, setNewPartNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [checkedItem, setCheckedItem] = useState({});
   const [radioPrototypeDisabled, SetPrototypeDisabled] = useState({});
-  const [radioAlphaDisabled, SetAlphaDisabled] = useState({});
-  const [radioBetaDisabled, SetBetaDisabled] = useState({});
+  const [radioAlphaDisabled, SetAlphaDisabled] = useState(true);
+  const [radioBetaDisabled, SetBetaDisabled] = useState(true);
 
-  const handleChange = (e)  => {
+  const handleChange = async (e)  => {
+    e.preventDefault();
     setCheckedItem(e.target.value);
+    // try {
+    //   let res = await fetch(url + "GetNextCalculatedPartNumber", {
+    //     method: "POST",
+    //     headers: { 'Content-type': 'application/json' },
+    //     body: JSON.stringify({
+    //       ID: props.data.ID,
+    //       Revision: checkedItem,
+                   
+    //     }),
+    //   });
+    //   let resJson = await res.json();
+    //   if (res.status === 200) {
+    //     setNewPartNumber(resJson.PartNumber);
+    //   } else {
+    //     //todo
+    //   }
+    //  } catch (err) {
+    //   console.log(err);
+    // }
+    
   };
 
   const handleupdateRevision = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      console.log(description);
+      
       let res = await fetch(url + "UpdateRevision", {
         method: "POST",
         headers: { 'Content-type': 'application/json' },
@@ -85,23 +107,35 @@ const BtnCellRenderer = (props) => {
       console.log(err);
     }
   }
+ 
 
   const btnUpdateClickedHandler = (e) => {
     e.preventDefault();
-    if (props.data.Revision.trim() === 'X')
+    if (props.data.Revision.trim()[0] === 'X')
     {
-      setCheckedItem("Y");
-      SetPrototypeDisabled(true);
-      SetAlphaDisabled(false);
-      SetBetaDisabled(false);
+      var rev = props.data.Revision.trim();
+      setCheckedItem("X" + parseInt(rev.substring(1, rev.length-1)) + 1);
+      SetPrototypeDisabled(false);
+      SetAlphaDisabled(true);
+      SetBetaDisabled(true);
 
     }
-    else if (props.data.Revision.trim() === 'Y')
+    else if (props.data.Revision.trim()[0] === 'Y')
     {
-      setCheckedItem("Z");
+      var rev = props.data.Revision.trim();
+      setCheckedItem("Y" + parseInt(rev.substring(1, rev.length-1)) + 1);
       SetPrototypeDisabled(true);
       SetAlphaDisabled(true);
-      SetBetaDisabled(false);
+      SetBetaDisabled(true);
+
+    }
+    else if (props.data.Revision.trim()[0] === 'Z')
+    {
+      var rev = props.data.Revision.trim();
+      setCheckedItem("Z" + parseInt(rev.substring(1, rev.length-1)) + 1);
+      SetPrototypeDisabled(true);
+      SetAlphaDisabled(true);
+      SetBetaDisabled(true);
 
     }
     else
@@ -132,7 +166,7 @@ const BtnCellRenderer = (props) => {
       <Button name='Delete' size="sm" onClick={btnDeleteClickedHandler}><img src="../delete.png" height="20" width="20" /></Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Please add new description for updated revision!</Modal.Title>
+          <Modal.Title>Please select Revison and add new description!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -147,7 +181,7 @@ const BtnCellRenderer = (props) => {
                   disabled={radioPrototypeDisabled}
                   type="radio"
                   id={`inline-radio-1`}
-                  onClick={handleChange}
+                  onChange={handleChange}
                   defaultChecked={checkedItem === "X"}
                 />
                 <Form.Check
@@ -197,6 +231,7 @@ const BtnCellRenderer = (props) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
+        {/* New Part:{newPartNumber} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
           <Button variant="secondary" onClick={handleupdateRevision}>
           {loading ?   
               <Spinner
