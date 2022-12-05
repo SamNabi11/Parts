@@ -131,8 +131,8 @@ const PartNumber = () => {
               <Form.Select name='origin' required as="select" value={revision} onChange={(e) => setRevision(e.target.value)}>
                 <option value=''></option>
                 <option value='X'>Prototype</option>
-                <option value='Y'>Alpha</option>
-                <option value='Z'>Beta</option>
+                {/* <option value='Y'>Alpha</option>
+                <option value='Z'>Beta</option> */}
                 <option value='A'>Production</option>
               </Form.Select>
             </Form.Group>

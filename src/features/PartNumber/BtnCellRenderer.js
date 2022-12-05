@@ -30,8 +30,8 @@ const BtnCellRenderer = (props) => {
   const [radioAlphaDisabled, SetAlphaDisabled] = useState(true);
   const [radioBetaDisabled, SetBetaDisabled] = useState(true);
 
-  const handleChange = async (e)  => {
-    e.preventDefault();
+  const handleChange =  (e)  => {
+    
     setCheckedItem(e.target.value);
     // try {
     //   let res = await fetch(url + "GetNextCalculatedPartNumber", {
@@ -182,9 +182,9 @@ const BtnCellRenderer = (props) => {
                   type="radio"
                   id={`inline-radio-1`}
                   onChange={handleChange}
-                  defaultChecked={checkedItem === "X"}
+                  defaultChecked={checkedItem[0] === "X"}
                 />
-                <Form.Check
+                {/* <Form.Check
                   inline
                   value="Y"
                   label="Alpha"
@@ -205,7 +205,7 @@ const BtnCellRenderer = (props) => {
                   id={`inline-radio-3`}
                   onChange={handleChange}
                   defaultChecked={checkedItem === "Z"}
-                />
+                /> */}
                 <Form.Check
                   inline
                   value="A"
@@ -214,7 +214,7 @@ const BtnCellRenderer = (props) => {
                   type="radio"
                   id={`inline-radio-4`}
                   onChange={handleChange}
-                  defaultChecked={checkedItem === "A"}
+                  defaultChecked={checkedItem[0] === "A"}
                 />
               </Form.Group>
             </div>
