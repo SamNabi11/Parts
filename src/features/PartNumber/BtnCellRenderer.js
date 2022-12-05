@@ -5,8 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 
 
-const url = //"https://d3ttaqb72x3f57.cloudfront.net/";
-  "https://localhost:5232/api/PartNumber/";
+const url = "https://d3ttaqb72x3f57.cloudfront.net/";
+  //"https://localhost:5232/api/PartNumber/";
 
 
 const BtnCellRenderer = (props) => {

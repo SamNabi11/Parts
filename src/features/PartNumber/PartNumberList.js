@@ -35,8 +35,8 @@ const PartNumberList = (props) => {
 
     useEffect(() => {
         console.log("Calling api" + "  " + showOnlyLastRev);
-        let url = //"https://d3ttaqb72x3f57.cloudfront.net/GetPartsList";
-            "https://localhost:5232/api/PartNumber/GetPartsList";
+        let url = "https://d3ttaqb72x3f57.cloudfront.net/GetPartsList";
+            //"https://localhost:5232/api/PartNumber/GetPartsList";
         let res = fetch(url, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },

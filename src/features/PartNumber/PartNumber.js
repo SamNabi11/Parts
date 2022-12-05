@@ -14,12 +14,10 @@ import { useNavigate } from "react-router-dom";
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-const url = //"https://d3ttaqb72x3f57.cloudfront.net/AddPartNumber";
-"https://localhost:5232/api/PartNumber/AddPartNumber";
+const url = "https://d3ttaqb72x3f57.cloudfront.net/AddPartNumber";
+//"https://localhost:5232/api/PartNumber/AddPartNumber";
 const responseBody = res => res.body;
-
-const
-  PartNumber = () => {
+const PartNumber = () => {
     const navigate = useNavigate();
     const [companyPrefix, setCompanyPrefix] = useState('NL');
     const [level, setLevel] = useState('');
