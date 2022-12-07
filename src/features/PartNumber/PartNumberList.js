@@ -54,43 +54,61 @@ const PartNumberList = (props) => {
     const [columnDefs] = useState([
        // { field: 'ID', width: 50, pinned: true },
         {
-            field: 'PartNumber', resizable: true, editable: true, width: 180, sortable: true, filter: true, pinned: true, headerClass: "ag-center-header",
-            cellClass: "ag-center-cell"
+            field: 'PartNumber', resizable: true, editable: true, width: 180, sortable: true, pinned: true, headerClass: "ag-center-header",
+            cellClass: "ag-center-cell",
+            filter: true,
+            floatingFilter: true
         },
         {
             field: 'CompanyPrefix', resizable: true, editable: true, width: 90, sortable: true, filter: true, headerClass: "ag-center-header",
-            cellClass: "ag-center-cell"
+            cellClass: "ag-center-cell",floatingFilter: true
         },
         {
             field: 'Level', headerName: 'Level', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
-            cellClass: "ag-center-cell"
+            cellClass: "ag-center-cell",floatingFilter: true
         },
         {
             field: 'Origin', headerName: 'Origin', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
-            cellClass: "ag-center-cell"
+            cellClass: "ag-center-cell",floatingFilter: true
         },
         {
             field: 'Category', headerName: 'Category', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
-            cellClass: "ag-center-cell"
+            cellClass: "ag-center-cell",floatingFilter: true
         },
         {
             field: 'Revision', resizable: true, editable: true, width: 90, sortable: true, filter: true, headerClass: "ag-center-header",
-            cellClass: "ag-center-cell"
+            cellClass: "ag-center-cell",floatingFilter: true
         },
         {
             field: 'Description', width: 200, headerClass: "ag-center-header", filter: true,
             cellClass: "ag-center-cell",tooltipField: 'Description',
-            tooltipComponentParams: { color: '#ececec' }, editable: true,
+            tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
         },
         {
             field: 'DateCreated', width: 150, headerClass: "ag-center-header", filter: true,
             cellClass: "ag-center-cell",tooltipField: 'DateCreated',
-            tooltipComponentParams: { color: '#ececec' }, editable: true,
+            tooltipComponentParams: { color: '#ececec' }, editable: true, floatingFilter: true
         },
         {
-            field: 'DateLastChanged', width: 150, headerClass: "ag-center-header", filter: true,
+            field: 'DateLastChanged', width: 150, headerClass: "ag-center-header", filter: 'agDateColumnFilter',
             cellClass: "ag-center-cell",tooltipField: 'DateLastChanged',
-            tooltipComponentParams: { color: '#ececec' }, editable: true,
+            tooltipComponentParams: { color: '#ececec' }, editable: true, floatingFilter: true,
+            filterParams: {
+                comparator: function(filterLocalDateAtMidnight, cellValue) {
+                   if (cellValue === null) return -1;
+                   let cellDate = new Date(cellValue);
+                   if (filterLocalDateAtMidnight.getDate() === cellDate.getDate()) {
+                     return 0;
+                   }
+                  if (cellDate < filterLocalDateAtMidnight) {
+                      return -1;
+                  }
+                 if (cellDate > filterLocalDateAtMidnight) {
+                     return 1;
+                 }
+              },
+               browserDatePicker: true
+            }
         },
         {
             field: 'Action', headerClass: "ag-center-header",
@@ -120,20 +138,18 @@ const PartNumberList = (props) => {
                         updateRefreshKey
                     }}
                     rowSelection="single"
-                    paginationAutoPageSize={true}
-                    pagination={true}
+                    // paginationAutoPageSize={true}
+                    // pagination={true}
                 >
-                </AgGridReact>
+                </AgGridReact><Button onClick={navigateNewPart}>Create New Part</Button>
             </div>
-            <div className="mb-3">
             <Form.Check onChange={loadAfterSwichChange}
                     type="switch"
                     id="custom-switch"
                     label="Show Only Last Revision"
                     style={{ height: 20, width: 220 }}
-                /><Button onClick={navigateNewPart}>Create New Part</Button>
+                />
             </div>
-        </div>
     );
 };
 

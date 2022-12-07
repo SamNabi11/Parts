@@ -30,30 +30,35 @@ const BtnCellRenderer = (props) => {
   const [radioAlphaDisabled, SetAlphaDisabled] = useState(true);
   const [radioBetaDisabled, SetBetaDisabled] = useState(true);
 
-  const handleChange =  (e)  => {
+  
+  const handleChange = async (e)  => {
     
     setCheckedItem(e.target.value);
-    // try {
-    //   let res = await fetch(url + "GetNextCalculatedPartNumber", {
-    //     method: "POST",
-    //     headers: { 'Content-type': 'application/json' },
-    //     body: JSON.stringify({
-    //       ID: props.data.ID,
-    //       Revision: checkedItem,
+    loadNextCalcPartNumber(e.target.value);
+  }
+  const loadNextCalcPartNumber = async (value)  => {
+    try {
+      let res = await fetch(url + "GetNextCalculatedPartNumber", {
+        method: "POST",
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          ID: props.data.ID,
+          Revision: value,
                    
-    //     }),
-    //   });
-    //   let resJson = await res.json();
-    //   if (res.status === 200) {
-    //     setNewPartNumber(resJson.PartNumber);
-    //   } else {
-    //     //todo
-    //   }
-    //  } catch (err) {
-    //   console.log(err);
-    // }
+        }),
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        setNewPartNumber(resJson.PartNumber);
+      } else {
+        //todo
+      }
+     } catch (err) {
+      console.log(err);
+    }
     
   };
+
 
   const handleupdateRevision = async (e) => {
     e.preventDefault();
@@ -111,6 +116,7 @@ const BtnCellRenderer = (props) => {
 
   const btnUpdateClickedHandler = (e) => {
     e.preventDefault();
+    loadNextCalcPartNumber(props.data.Revision.trim());
     if (props.data.Revision.trim()[0] === 'X')
     {
       var rev = props.data.Revision.trim();
@@ -231,7 +237,7 @@ const BtnCellRenderer = (props) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-        {/* New Part:{newPartNumber} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+        New Part:{newPartNumber} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Button variant="secondary" onClick={handleupdateRevision}>
           {loading ?   
               <Spinner
