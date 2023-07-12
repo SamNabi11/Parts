@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -27,9 +27,6 @@ const BtnCellRenderer = (props) => {
   const [loading, setLoading] = useState(false);
   const [checkedItem, setCheckedItem] = useState({});
   const [radioPrototypeDisabled, SetPrototypeDisabled] = useState({});
-  const [radioAlphaDisabled, SetAlphaDisabled] = useState(true);
-  const [radioBetaDisabled, SetBetaDisabled] = useState(true);
-
   
   const handleChange = async (e)  => {
     
@@ -122,34 +119,26 @@ const BtnCellRenderer = (props) => {
       var rev = props.data.Revision.trim();
       setCheckedItem("X" + parseInt(rev.substring(1, rev.length-1)) + 1);
       SetPrototypeDisabled(false);
-      SetAlphaDisabled(true);
-      SetBetaDisabled(true);
 
     }
     else if (props.data.Revision.trim()[0] === 'Y')
     {
-      var rev = props.data.Revision.trim();
+       rev = props.data.Revision.trim();
       setCheckedItem("Y" + parseInt(rev.substring(1, rev.length-1)) + 1);
       SetPrototypeDisabled(true);
-      SetAlphaDisabled(true);
-      SetBetaDisabled(true);
 
     }
     else if (props.data.Revision.trim()[0] === 'Z')
     {
-      var rev = props.data.Revision.trim();
+       rev = props.data.Revision.trim();
       setCheckedItem("Z" + parseInt(rev.substring(1, rev.length-1)) + 1);
       SetPrototypeDisabled(true);
-      SetAlphaDisabled(true);
-      SetBetaDisabled(true);
 
     }
     else
     {
       setCheckedItem("A");
       SetPrototypeDisabled(true);
-      SetAlphaDisabled(true);
-      SetBetaDisabled(true);
 
     }
      
@@ -168,8 +157,8 @@ const BtnCellRenderer = (props) => {
 
   return (
     <div>
-      <Button name='Rev' size="sm" onClick={btnUpdateClickedHandler}><img src="../revision.png" height="20" width="20" /></Button> &nbsp;
-      <Button name='Delete' size="sm" onClick={btnDeleteClickedHandler}><img src="../delete.png" height="20" width="20" /></Button>
+      <Button name='Rev' size="sm" onClick={btnUpdateClickedHandler}><img alt="" src="../revision.png" height="20" width="20" /></Button> &nbsp;
+      <Button name='Delete' size="sm" onClick={btnDeleteClickedHandler}><img alt="" src="../delete.png" height="20" width="20" /></Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Please select Revison and add new description!</Modal.Title>

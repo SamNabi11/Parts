@@ -33,7 +33,7 @@ const PartNumber = () => {
 
     const navigatePartNumberList = () => {
       // 👇️ navigate to /
-      navigate('/', { replace: true });
+      navigate('/PartNumberList', { replace: true });
     }
 
     const delay = ms => new Promise(
@@ -80,7 +80,7 @@ const PartNumber = () => {
       }
     };
     return (
-      <div>
+      <div  style={{ height: "90%" , width: "70%" }}>
         <br />
         <br />
         <Form onSubmit={(e) => handleSubmit(e)}>

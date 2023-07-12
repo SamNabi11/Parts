@@ -1,0 +1,18 @@
+import React from "react";
+import { IHeaderParams } from "ag-grid-community";
+
+function ButtonHeader (
+  props: IHeaderParams & {
+    dataCount: number;
+    onAddClick: () => void;
+  }
+) 
+{
+  return (
+    <button onClick={props.onAddClick}>
+      {props.dataCount > 0 ? `Edit` : `Add`}
+    </button>
+  );
+};
+
+export default ButtonHeader;

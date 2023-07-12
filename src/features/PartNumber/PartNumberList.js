@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import BtnCellRenderer from './BtnCellRenderer';
+//import ButtonHeader from "./ButtonHeader";
 
 
 const PartNumberList = (props) => {
@@ -115,6 +116,11 @@ const PartNumberList = (props) => {
             cellClass: "ag-center-cell",
             width: 300,
             cellRenderer: BtnCellRenderer,
+            // headerComponentFramework:{ButtonHeader},
+            // headerComponentParams:{
+            //   dataCount: data.length,
+            //   onAddClick: onClick
+            // },
 
         }
     ])
@@ -125,9 +131,9 @@ const PartNumberList = (props) => {
     };
 
     return (
-        <div>
+        <div  style={{ height: "90%" , width: "100%" }}>
            
-            <div className="ag-theme-alpine" style={{ height: 800, width: 1400 }}>
+            <div className="ag-theme-alpine" style={{ height: "100%" , width: "100%" }}>
                 <AgGridReact
                     ref={gridRef}
                     rowData={rowData}
@@ -141,7 +147,7 @@ const PartNumberList = (props) => {
                     // paginationAutoPageSize={true}
                     // pagination={true}
                 >
-                </AgGridReact><Button onClick={navigateNewPart}>Create New Part</Button>
+                </AgGridReact>
             </div>
             <Form.Check onChange={loadAfterSwichChange}
                     type="switch"

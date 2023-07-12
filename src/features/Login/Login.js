@@ -1,43 +1,52 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect  } from 'react';
+import jwt_decode from 'jwt-decode';
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 import {
-    login,
-  } from './userSlice';
-const 
-Login = () => {
-    const [userName , setUserName] = useState('')
-    const [password , setPassword] = useState('')
+  signIn,
+  selectUser,
+} from './loginSlice';
 
+
+function Login() {
+
+    const user = useSelector(selectUser);
     const dispatch = useDispatch();
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        dispatch(login(
-            {
-                userName:userName,
-                password:password,
-                loggedIn:true,
-
-            }
-        ));
+    const navigate = useNavigate();
+  
+    function handleCallbackResponse(response) {
+      console.log("encode JWT ID token: " + response.credential);
+      var decodedObject = jwt_decode(response.credential);
+      console.log("callback---");
+      console.log(decodedObject);
+      dispatch(
+        signIn(
+          decodedObject
+        )
+      );
+      navigate('/PartNumberList', { replace: true });
 
     }
+  
+   
+  
+    useEffect(() => {
+      /* global google */
+      google.accounts.id.initialize({
+        client_id: "221424287321-rq2fa83lqvkd2bupvirthujjq6m76h80.apps.googleusercontent.com",
+        callback: handleCallbackResponse
+      });
+  
+      google.accounts.id.renderButton(
+        document.getElementById("signInDiv"),
+        { theme: "outline", size: "large" }
+      )
+    }, []);
   return (
-    <div>
-        <form onSubmit={(e) => handleSubmit(e)}>
-            <h1>Login here</h1>
-            <br />
-            <input type='name' placeholder='user name' value={userName} onChange={(e)=>setUserName(e.target.value)}></input>
-            <br />
-            <input type='password' placeholder='password' value={password}  onChange={(e)=>setPassword(e.target.value)}></input>
-            <br />
-            <button type='submit'>Submit</button>
-        </form>
-            
+    <div className="App">
+     <div id="signInDiv"></div>
     </div>
-  )
+  );
 }
 
-export default 
-Login
+export default Login;
