@@ -1,9 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
+import { Navigate } from "react-router-dom";
 
 const googleLogin = () => {
 
@@ -13,13 +13,14 @@ const googleLogin = () => {
     //console.log(userObject);
     localStorage.setItem('user', JSON.stringify(userObject));
     const { name, sub, picture } = userObject;
-    const doc = {
-      _id: sub,
-      _type: 'user',
-      userName: name,
-      image: picture,
-    };
-   
+    // const doc = {
+    //   _id: sub,
+    //   _type: 'user',
+    //   userName: name,
+    //   image: picture,
+    // };
+    const [user,setUser] = localStorage.getItem("user","");
+    user ?  <Navigate to="/ProductList" />  : <Navigate to="/Login" /> ;
 
   }
 

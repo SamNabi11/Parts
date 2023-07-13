@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import GoogleLogin from './features/Login/GoogleLogin';
 
 const Login = () => {
