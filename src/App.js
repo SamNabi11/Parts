@@ -13,6 +13,7 @@ from 'react-router-dom';
 import ProtectedRoutes from './features/Login/ProtectedRoute';
 import { useLocalStorage } from './util/useLocalStorage';
 import Login from './Login';
+import MainBar from './Components/NavbarBootstrap';
 
 function App() {
   const [user,setUser] = useLocalStorage("user",null);
@@ -23,11 +24,21 @@ function App() {
     {/* <header className="App-header">
        <PartNumberList />
      </header> */}
-     
+      <MainBar />
      <Routes>
           <Route path="/" element={
             <ProtectedRoutes>
           <PartNumberList />
+          </ProtectedRoutes>
+          } />
+           <Route path="/PartNumberList" element={
+            <ProtectedRoutes>
+          <PartNumberList />
+          </ProtectedRoutes>
+          } />
+          <Route path="/PartNumber" element={
+            <ProtectedRoutes>
+          <PartNumber />
           </ProtectedRoutes>
           } />
           <Route  path="/Login"  element={ user != null ? ( <Navigate to="/" />) : (<Login />)  }/>
