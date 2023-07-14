@@ -6,14 +6,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {  
   BrowserRouter as Router,  
   Routes,  
-  Route  
+  Route,  
+  Navigate
 }   
 from 'react-router-dom';  
 import ProtectedRoutes from './features/Login/ProtectedRoute';
+import { useLocalStorage } from './util/useLocalStorage';
 import Login from './Login';
-import Home from './Home';
 
 function App() {
+  const [user,setUser] = useLocalStorage("user",null);
   return (
     <div className="App">  
    
@@ -28,7 +30,7 @@ function App() {
           <PartNumberList />
           </ProtectedRoutes>
           } />
-          <Route path="/Login" element={<Login />} />
+          <Route  path="/Login"  element={ user != null ? ( <Navigate to="/" />) : (<Login />)  }/>
         </Routes>
     </Router>  
 </div>
