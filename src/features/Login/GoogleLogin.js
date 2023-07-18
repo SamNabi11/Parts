@@ -3,41 +3,26 @@ import { FcGoogle } from 'react-icons/fc';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { login } from './userSlice';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 
 
 
 const LoginUtil = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const navigatePartNumberList = () => {
-    // 👇️ navigate to /
-    navigate('/', { replace: true });
-  }
-
-  const navigateLogin = () => {
-    // 👇️ navigate to /
-    navigate('/Login', { replace: true });
-  }
-  
   const ResponseGoogle = (response) => {
    //console.log(response);
     const userObject = jwt_decode(response.credential);
-    //console.log(userObject);
-    localStorage.setItem('user', JSON.stringify(userObject));
-    const { name, sub, picture } = userObject;
-    const doc = {
-      _id: sub,
-      _type: 'user',
-      userName: name,
-      image: picture,
-    };
-    navigatePartNumberList();
+    dispatch(login(userObject));
+    navigate('/');
   }
+
   const ResponseGoogleFailed = (response) => {
-     
-   }
+    // Handle login failure   
+  }
  
   return (
     <div className="">

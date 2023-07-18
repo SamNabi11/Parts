@@ -6,45 +6,56 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {  
   BrowserRouter as Router,  
   Routes,  
-  Route,  
-  Navigate
+  Route
 }   
 from 'react-router-dom';  
 import ProtectedRoutes from './features/Login/ProtectedRoute';
-import { useLocalStorage } from './util/useLocalStorage';
 import Login from './Login';
-import MainBar from './Components/NavbarBootstrap';
+import MainBar from './components/NavbarBootstrap';
 
 function App() {
-  const [user,setUser] = useLocalStorage("user",null);
   return (
     <div className="App">  
-   
+    {console.log('inside div')}
     <Router>  
     {/* <header className="App-header">
        <PartNumberList />
      </header> */}
       <MainBar />
-     <Routes>
-          <Route path="/" element={
+      <Routes>
+        <Route
+          path="/"
+          element={
             <ProtectedRoutes>
-          <PartNumberList />
-          </ProtectedRoutes>
-          } />
-           <Route path="/PartNumberList" element={
+              <PartNumberList />
+            </ProtectedRoutes>
+            }
+        />
+        <Route
+          path="/PartNumberList"
+          element={
             <ProtectedRoutes>
-          <PartNumberList />
-          </ProtectedRoutes>
-          } />
-          <Route path="/PartNumber" element={
+              <PartNumberList />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/PartNumber"
+          element={
             <ProtectedRoutes>
-          <PartNumber />
-          </ProtectedRoutes>
-          } />
-          <Route  path="/Login"  element={ user != null ? ( <Navigate to="/" />) : (<Login />)  }/>
-        </Routes>
-    </Router>  
-</div>
+              <PartNumber />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/Login"
+          element={
+            <Login />
+          }
+        />
+      </Routes>
+      </Router>  
+    </div>
 
   );
 }

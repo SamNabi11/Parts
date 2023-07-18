@@ -3,32 +3,50 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
-import { useLocalStorage } from '../util/useLocalStorage';
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../features/Login/userSlice';
+import { Link, useNavigate } from 'react-router-dom';
  
 
 const MainBar = () => {
-
-    const user = useLocalStorage("user",null);
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(state => state.user);
 
   function HandleSignOut(event) {
-    localStorage.setItem('user', null);
-    navigate('/Login', { replace: true });
+    dispatch(logout());
+    navigate('/Login');
   }
 
   return (
     <div id="test">
       {console.log("inside div   ")}
-      {console.log(user)}
       {/* {user !== null && Object.keys(user).length !== 0 && */}
         <div id="internal">
           {/* <img src={user.picture}></img> */}
           <Navbar bg="light" expand="lg">
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
-                <Nav.Link href="/PartNumberList">Home</Nav.Link>
-                <Nav.Link href="/PartNumber">New Part</Nav.Link>
+                <Link
+                  style={{
+                    textDecoration: 'none',
+                    color: 'rgba(0, 0, 0, 0.55)',
+                    alignSelf: 'center'
+                  }}
+                  to={'/PartNumberList'}
+                  href="/PartNumberList">
+                    Home
+                </Link>
+                <Link
+                  style={{
+                    textDecoration: 'none',
+                    color: 'rgba(0, 0, 0, 0.55)',
+                    alignSelf: 'center'
+                  }}
+                  to={'/PartNumber'}
+                  href="">
+                    New Part
+                </Link>
                 <NavDropdown title="Admin" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
@@ -40,9 +58,13 @@ const MainBar = () => {
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
-                <div style={{ position: 'absolute', display: 'block', top: 0, right: 100, zIndex: 3 }} >
-                  {user != null && user.name}  &nbsp; &nbsp;
-                  <Button variant="primary" type='button' onClick={HandleSignOut} >Sign Out</Button></div>
+                {
+                  user.value &&
+                  <div style={{ position: 'absolute', display: 'block', top: 0, right: 100, zIndex: 3 }} >
+                    &nbsp; &nbsp;
+                    <Button variant="primary" type='button' onClick={HandleSignOut} >Sign Out</Button>
+                  </div>
+                }
               </Nav>
             </Navbar.Collapse>
           </Navbar>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
-import { AgGridReact } from 'ag-grid-react';
+import ag, { AgGridReact } from 'ag-grid-react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -45,52 +45,49 @@ const PartNumberList = (props) => {
             }),
         }).then((res) => res.json())
             .then((data) => setRowData(data));;
-
-
-
     }, [refreshKey])
 
 
     const [columnDefs] = useState([
        // { field: 'ID', width: 50, pinned: true },
         {
-            field: 'PartNumber', resizable: true, editable: true, width: 180, sortable: true, pinned: true, headerClass: "ag-center-header",
+            field: 'PartNumber', resizable: true, editable: true, sortable: true, pinned: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",
             filter: true,
             floatingFilter: true
         },
         {
-            field: 'CompanyPrefix', resizable: true, editable: true, width: 90, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'CompanyPrefix', resizable: true, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Level', headerName: 'Level', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Level', headerName: 'Level', resizable: true, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Origin', headerName: 'Origin', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Origin', headerName: 'Origin', resizable: true, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Category', headerName: 'Category', resizable: true, editable: true, width: 110, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Category', headerName: 'Category', resizable: true, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Revision', resizable: true, editable: true, width: 90, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Revision', resizable: true, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Description', width: 200, headerClass: "ag-center-header", filter: true,
+            field: 'Description', headerClass: "ag-center-header", filter: true,
             cellClass: "ag-center-cell",tooltipField: 'Description',
             tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
         },
         {
-            field: 'DateCreated', width: 150, headerClass: "ag-center-header", filter: true,
+            field: 'DateCreated', headerClass: "ag-center-header", filter: true,
             cellClass: "ag-center-cell",tooltipField: 'DateCreated',
             tooltipComponentParams: { color: '#ececec' }, editable: true, floatingFilter: true
         },
         {
-            field: 'DateLastChanged', width: 150, headerClass: "ag-center-header", filter: 'agDateColumnFilter',
+            field: 'DateLastChanged', headerClass: "ag-center-header", filter: 'agDateColumnFilter',
             cellClass: "ag-center-cell",tooltipField: 'DateLastChanged',
             tooltipComponentParams: { color: '#ececec' }, editable: true, floatingFilter: true,
             filterParams: {
@@ -113,7 +110,6 @@ const PartNumberList = (props) => {
         {
             field: 'Action', headerClass: "ag-center-header",
             cellClass: "ag-center-cell",
-            width: 300,
             cellRenderer: BtnCellRenderer,
 
         }
@@ -127,7 +123,7 @@ const PartNumberList = (props) => {
     return (
         <div>
            
-            <div className="ag-theme-alpine" style={{ height: 800, width: 1400 }}>
+            <div className="ag-theme-alpine" style={{ height: 800, width: '100%' }}>
                 <AgGridReact
                     ref={gridRef}
                     rowData={rowData}
@@ -138,10 +134,11 @@ const PartNumberList = (props) => {
                         updateRefreshKey
                     }}
                     rowSelection="single"
+                    onGridReady={(grid) => grid.api.sizeColumnsToFit()}
                     // paginationAutoPageSize={true}
                     // pagination={true}
-                >
-                </AgGridReact><Button onClick={navigateNewPart}>Create New Part</Button>
+                />
+                <Button onClick={navigateNewPart}>Create New Part</Button>
             </div>
             <Form.Check onChange={loadAfterSwichChange}
                     type="switch"

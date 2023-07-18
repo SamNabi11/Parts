@@ -124,6 +124,7 @@ const PartNumber = () => {
                 <option value='LS'>Laser Source</option>
                 <option value='MC'>Multi Comp</option>
                 <option value='SE'>Sensor</option>
+                <option value='PN'>Pneumatic</option>
               </Form.Select>
             </Form.Group>
             <Form.Group as={Col} controlId="formRevision">
