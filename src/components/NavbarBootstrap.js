@@ -41,7 +41,9 @@ const MainBar = () => {
                   style={{
                     textDecoration: 'none',
                     color: 'rgba(0, 0, 0, 0.55)',
-                    alignSelf: 'center'
+                    alignSelf: 'center',
+                    paddingLeft:30,
+                    paddingRight:20
                   }}
                   to={'/PartNumber'}
                   href="">

@@ -77,7 +77,7 @@ const PartNumberList = (props) => {
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Description', headerClass: "ag-center-header", filter: true,
+            field: 'Description', headerClass: "ag-center-header", resizable: true,filter: true,
             cellClass: "ag-center-cell",tooltipField: 'Description',
             tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
         },
