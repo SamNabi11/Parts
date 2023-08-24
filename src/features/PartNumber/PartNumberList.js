@@ -34,7 +34,7 @@ const PartNumberList = (props) => {
     };
 
     useEffect((e) => {
-        console.log("Calling api" + "  " + showOnlyLastRev);
+        //console.log("Calling api" + "  " + showOnlyLastRev);
         let url = "https://d3ttaqb72x3f57.cloudfront.net/GetPartsList";
             //"https://localhost:5232/api/PartNumber/GetPartsList";
         let res = fetch(url, {
@@ -51,40 +51,50 @@ const PartNumberList = (props) => {
     const [columnDefs] = useState([
        // { field: 'ID', width: 50, pinned: true },
         {
-            field: 'PartNumber', resizable: true, width:250, editable: true, sortable: true, pinned: true, headerClass: "ag-center-header",
+            field: 'PartNumber', resizable: true, width:200, editable: true, sortable: true, pinned: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",
             filter: true,
             floatingFilter: true
         },
         {
-            field: 'CompanyPrefix' , headerName:'Prefix', resizable: true, width:100, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'CompanyPrefix' , headerName:'Prefix', resizable: true, width:40, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Level', headerName: 'Level', resizable: true, width:100, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Level', headerName: 'Level', resizable: true, width:50, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Origin', headerName: 'Origin', resizable: true, width:100, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Origin', headerName: 'Origin', resizable: true, width:60, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Category', headerName: 'Category', resizable: true, width:120, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Category', headerName: 'Category', resizable: true, width:70, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Revision', resizable: true, editable: true, width:100, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Revision', resizable: true, editable: true, width:50, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Description', headerClass: "ag-center-header", filter: true,resizable:true,
+            field: 'Description', headerClass: "ag-center-header", filter: true,resizable:true,width:150,
             cellClass: "ag-center-cell",tooltipField: 'Description',
+            tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
+        },
+        {
+            field: 'Eco', headerClass: "ag-center-header", filter: true,resizable:true,width:150,
+            cellClass: "ag-center-cell",tooltipField: 'Eco',
+            tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
+        },
+        {
+            field: 'UserCreated', headerClass: "ag-center-header", filter: true,resizable:true,width:80,
+            cellClass: "ag-center-cell",tooltipField: 'UserCreated',
             tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
         },
         {
             field: 'DateCreated', headerClass: "ag-center-header", filter: 'agDateColumnFilter',resizable:true,
             cellClass: "ag-center-cell",tooltipField: 'DateCreated',
-            tooltipComponentParams: { color: '#ececec' }, editable: true, floatingFilter: true,width:155,
+            tooltipComponentParams: { color: '#ececec' }, editable: true, floatingFilter: true,width:100,
             filterParams: {
                 comparator: function(filterLocalDateAtMidnight, cellValue) {
                    if (cellValue === null) return -1;
@@ -101,11 +111,16 @@ const PartNumberList = (props) => {
               },
                browserDatePicker: true
             }
+        },
+        {
+            field: 'UserLastChanged', headerClass: "ag-center-header", filter: true,resizable:true,width:80,
+            cellClass: "ag-center-cell",tooltipField: 'UserLastChanged',
+            tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
         },
         {
             field: 'DateLastChanged', headerClass: "ag-center-header", filter: 'agDateColumnFilter',
             cellClass: "ag-center-cell",tooltipField: 'DateLastChanged',
-            tooltipComponentParams: { color: '#ececec' }, editable: true, floatingFilter: true,resizable:true,width:155,
+            tooltipComponentParams: { color: '#ececec' }, editable: true, floatingFilter: true,resizable:true,width:100,
             filterParams: {
                 comparator: function(filterLocalDateAtMidnight, cellValue) {
                    if (cellValue === null) return -1;
@@ -124,7 +139,7 @@ const PartNumberList = (props) => {
             }
         },
         {
-            field: 'Action', headerClass: "ag-center-header",
+            field: 'Action', headerClass: "ag-center-header",width:100,
             cellClass: "ag-center-cell",
             cellRenderer: BtnCellRenderer,
 
