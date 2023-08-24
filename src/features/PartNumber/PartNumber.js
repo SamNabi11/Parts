@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
 import Button from 'react-bootstrap/Button';
@@ -9,7 +10,8 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from "react-router-dom";
-import { FormGroup } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+
 
 
 const superagent = superagentPromise(_superagent, global.Promise);
@@ -25,13 +27,12 @@ const PartNumber = () => {
     const [category, setCategory] = useState('');
     const [revision, setRevision] = useState('');
     const [description, setDescription] = useState('');
-    const [partnumber, setPartnumber] = useState('');
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-    
+    const user = useSelector(state => state.user);
     const [resMsg, setResMsg] = useState('');
     const [show, setShow] = useState(false);
 
-    
     const navigatePartNumberList = () => {
       // 👇️ navigate to /
       navigate('/', { replace: true });
@@ -43,33 +44,6 @@ const PartNumber = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-      const handleChange = async (evt)  => {
-      console.log(evt.target.name);
-      switch (evt.target.name) {
-        case 'companyPrefix':
-          setCompanyPrefix();
-          setPartnumber(evt.target.value+level+"-" + origin +"-" + category + "xxxxx" + revision);
-          break;
-        case 'level':
-            setLevel(evt.target.value);
-            setPartnumber(companyPrefix + evt.target.value+"-" + origin +"-" + category + "xxxxx" + revision);
-            break;
-        case 'origin':
-            setOrigin(evt.target.value);
-            setPartnumber(companyPrefix+level+"-" + evt.target.value +"-" + category + "xxxxx" + revision);
-            break;
-        case 'category':
-            setCategory(evt.target.value);
-            setPartnumber(companyPrefix+level+"-" + origin +"-" + evt.target.value + "xxxxx" + revision);
-            break;
-        case 'revision':
-            setRevision(evt.target.value);
-            setPartnumber(companyPrefix+level+"-" + origin +"-" + category + "xxxxx" + evt.target.value);
-            break;
-              }
-      
-    }
 
     let handleGoback = async (e) => {
       e.preventDefault();
@@ -89,19 +63,21 @@ const PartNumber = () => {
             revision: revision,
             origin: origin,
             description: description,
+            eco:'',
+            userCreated: user.value.name,
+            userLastChanged: user.value.name
           }),
         });
         //let resJson = await res.json();
         if (res.status === 200) {
-          let resJson = await res.json();
-          setResMsg(resJson + "        created successfully");
+          setResMsg("Product created successfully");
         } else {
           setResMsg("Some error occured");
         }
         setLoading(false);
         
         handleShow();
-        await delay(5000);
+        await delay(1000);
 
         navigatePartNumberList();
       } catch (err) {
@@ -116,13 +92,13 @@ const PartNumber = () => {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formComapnPrefix">
               <Form.Label>Company Prefix</Form.Label>
-              <Form.Select name='companyPrefix' value={companyPrefix} onChange={handleChange}>
+              <Form.Select name='ComapnPrefix' value={companyPrefix} onChange={(e) => setCompanyPrefix(e.target.value)}>
                 <option value='NL'>Neatolabs</option>
               </Form.Select>
             </Form.Group>
             <Form.Group as={Col} controlId="formlevel">
               <Form.Label>Level</Form.Label>
-              <Form.Select name='level' required as="select" value={level} onChange={handleChange}>
+              <Form.Select name='level' required as="select" value={level} onChange={(e) => setLevel(e.target.value)}>
                 <option value=''></option>
                 <option value='A'>Assembly</option>
                 <option value='P'>Part</option>
@@ -130,7 +106,7 @@ const PartNumber = () => {
             </Form.Group>
             <Form.Group as={Col} controlId="formOrigin">
               <Form.Label>Origin</Form.Label>
-              <Form.Select name='origin' required as="select" value={origin} onChange={handleChange}>
+              <Form.Select name='origin' required as="select" value={origin} onChange={(e) => setOrigin(e.target.value)}>
                 <option value=''></option>
                 <option value='C'>Custom</option>
                 <option value='S'>Shelf</option>
@@ -141,7 +117,7 @@ const PartNumber = () => {
           <Row>
             <Form.Group as={Col} controlId="formCategory">
               <Form.Label>Category</Form.Label>
-              <Form.Select name='category' required as="select" value={category} onChange={handleChange}>
+              <Form.Select name='category' required as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option value=''></option>
                 <option value='EL'>Electrical</option>
                 <option value='ME'>Mechanical</option>
@@ -158,7 +134,7 @@ const PartNumber = () => {
             </Form.Group>
             <Form.Group as={Col} controlId="formRevision">
               <Form.Label>Revision</Form.Label>
-              <Form.Select name='revision' required as="select" value={revision} onChange={handleChange}>
+              <Form.Select name='origin' required as="select" value={revision} onChange={(e) => setRevision(e.target.value)}>
                 <option value=''></option>
                 <option value='X'>Prototype</option>
                 {/* <option value='Y'>Alpha</option>
@@ -177,15 +153,7 @@ const PartNumber = () => {
             <Form.Control as="textarea" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
           </FloatingLabel>
           <br />
-          <label>New Part:{partnumber}</label> 
-          <br /><br />
-          <table>
-            <tr>
-              <td width={100}>
-          <Button className="mb-3" variant="primary" type='button' onClick={handleGoback}  >GoBack</Button></td>
-          
-          <td width={1500}>
-          <Button  className="mb-3"  variant="primary" type='submit'>
+          <Button variant="primary" type='submit'>
           {loading ?   
               <Spinner
               as="span"
@@ -195,10 +163,8 @@ const PartNumber = () => {
               aria-hidden="true"
             /> : null }
             {loading ? <>Updating...</> : <>Save</>} 
-            </Button>
-            </td>
-            </tr>
-            </table>
+            </Button> &nbsp; &nbsp;
+          <Button variant="primary" type='button' onClick={handleGoback} >GoBack</Button>
           <br />
           
 
