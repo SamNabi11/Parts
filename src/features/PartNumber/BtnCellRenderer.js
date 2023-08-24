@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
+import { useSelector } from 'react-redux';
 
 
 const url = "https://d3ttaqb72x3f57.cloudfront.net/";
@@ -23,13 +24,14 @@ const BtnCellRenderer = (props) => {
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [description, setDescription] = useState('');
+  const [eco, setEco] = useState('');
   const [newPartNumber, setNewPartNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [checkedItem, setCheckedItem] = useState({});
   const [radioPrototypeDisabled, SetPrototypeDisabled] = useState({});
   const [radioAlphaDisabled, SetAlphaDisabled] = useState(true);
   const [radioBetaDisabled, SetBetaDisabled] = useState(true);
-
+  const user = useSelector(state => state.user);
   
   const handleChange = async (e)  => {
     
@@ -59,7 +61,7 @@ const BtnCellRenderer = (props) => {
     
   };
 
-
+  
   const handleupdateRevision = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -72,6 +74,8 @@ const BtnCellRenderer = (props) => {
           ID: props.data.ID,
           Revision: checkedItem,
           Description: description,
+          Eco:eco,
+          UserLastChanged:user.value.name
           
         }),
       });
@@ -116,6 +120,7 @@ const BtnCellRenderer = (props) => {
 
   const btnUpdateClickedHandler = (e) => {
     e.preventDefault();
+    setDescription(props.data.Description);
     loadNextCalcPartNumber(props.data.Revision.trim());
     if (props.data.Revision.trim()[0] === 'X')
     {
@@ -153,6 +158,7 @@ const BtnCellRenderer = (props) => {
 
     }
      
+   
 
     handleShow();
     // props.clicked(props.data.ID + "-" + props.data.PartNumber);
@@ -232,7 +238,9 @@ const BtnCellRenderer = (props) => {
               controlId="exampleForm.ControlTextarea1"
             >
               <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" onChange={(e) => setDescription(e.target.value)} rows={3} autoFocus />
+              <Form.Control as="textarea" defaultValue={props.data.Description} onChange={(e) => setDescription(e.target.value)} rows={3} autoFocus />
+              <Form.Label>ECO</Form.Label>
+              <Form.Control as="textarea" onChange={(e) => setEco(e.target.value)} rows={4} autoFocus />
             </Form.Group>
           </Form>
         </Modal.Body>
