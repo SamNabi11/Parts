@@ -20,7 +20,7 @@ const MainBar = () => {
 
   return (
     <div id="test">
-      {console.log("inside div   ")}
+     {/* {console.log("inside div   ")} */}
       {/* {user !== null && Object.keys(user).length !== 0 && */}
         <div id="internal">
           {/* <img src={user.picture}></img> */}
