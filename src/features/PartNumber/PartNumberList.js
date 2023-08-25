@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef,useCallback,useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
 import ag, { AgGridReact } from 'ag-grid-react';
 import Button from 'react-bootstrap/Button';
@@ -9,7 +9,7 @@ import BtnCellRenderer from './BtnCellRenderer';
 
 
 const PartNumberList = (props) => {
-    const gridRef = useRef(null);
+    const gridRef = useRef();
     const navigate = useNavigate();
     const [rowData, setRowData] = useState([])
     const [refreshKey, setRefreshKey] = useState(0);
@@ -23,6 +23,10 @@ const PartNumberList = (props) => {
 
     };
 
+    const popupParent = useMemo(() => {
+        return document.body;
+      }, []);
+
     const loadAfterSwichChange = (e) => {
 
         setSwitchedState(e.target.checked);
@@ -33,7 +37,11 @@ const PartNumberList = (props) => {
 
     };
 
-    useEffect((e) => {
+    const onBtnExport = useCallback(() => {
+        gridRef.current.api.exportDataAsCsv();
+      }, []);
+
+    useEffect(() => {
         //console.log("Calling api" + "  " + showOnlyLastRev);
         let url = "https://d3ttaqb72x3f57.cloudfront.net/GetPartsList";
             //"https://localhost:5232/api/PartNumber/GetPartsList";
@@ -44,24 +52,24 @@ const PartNumberList = (props) => {
                 LoadLastRevision: showOnlyLastRev,
             }),
         }).then((res) => res.json())
-            .then((data) => setRowData(data));;
+            .then((data) => setRowData(data));
     }, [refreshKey])
 
 
     const [columnDefs] = useState([
        // { field: 'ID', width: 50, pinned: true },
         {
-            field: 'PartNumber', resizable: true, width:200, editable: true, sortable: true, pinned: true, headerClass: "ag-center-header",
+            field: 'PartNumber', resizable: true, width:150, editable: true, sortable: true, pinned: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",
             filter: true,
             floatingFilter: true
         },
         {
-            field: 'CompanyPrefix' , headerName:'Prefix', resizable: true, width:40, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'CompanyPrefix' , headerName:'Prefix', resizable: true, width:50, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Level', headerName: 'Level', resizable: true, width:50, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Level', headerName: 'Level', resizable: true, width:60, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
@@ -69,7 +77,7 @@ const PartNumberList = (props) => {
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Category', headerName: 'Category', resizable: true, width:70, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
+            field: 'Category', headerName: 'Category', resizable: true, width:90, editable: true, sortable: true, filter: true, headerClass: "ag-center-header",
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
@@ -77,12 +85,12 @@ const PartNumberList = (props) => {
             cellClass: "ag-center-cell",floatingFilter: true
         },
         {
-            field: 'Description', headerClass: "ag-center-header", filter: true,resizable:true,width:150,
+            field: 'Description', headerClass: "ag-center-header", filter: true,resizable:true,width:120,
             cellClass: "ag-center-cell",tooltipField: 'Description',
             tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
         },
         {
-            field: 'Eco', headerClass: "ag-center-header", filter: true,resizable:true,width:150,
+            field: 'Eco', headerClass: "ag-center-header", filter: true,resizable:true,width:120,
             cellClass: "ag-center-cell",tooltipField: 'Eco',
             tooltipComponentParams: { color: '#ececec' }, editable: true,floatingFilter: true
         },
@@ -161,15 +169,19 @@ const PartNumberList = (props) => {
                     columnDefs={columnDefs}
                     tooltipShowDelay={0}
                     tooltipHideDelay={2000}
+                    suppressExcelExport={true}
+                    popupParent={popupParent}
                     context={{
                         updateRefreshKey
                     }}
                     rowSelection="single"
-                    onGridReady={(grid) => grid.api.sizeColumnsToFit()}
+                    onGridReady={(grid) => grid.api.sizeColumnsToFit() }
+                    
                     // paginationAutoPageSize={true}
                     // pagination={true}
                 />
-                <Button onClick={navigateNewPart}>Create New Part</Button>
+                <Button onClick={navigateNewPart}>Create New Part</Button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <Button onClick={onBtnExport}>Export CSV</Button>
             </div>
             <Form.Check onChange={loadAfterSwichChange}
                     type="switch"
